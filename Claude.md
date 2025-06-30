@@ -108,7 +108,18 @@ Use semantic‑release to auto‑tag versions and generate CHANGELOG.
 - Weekly tech debt triage: label and time‑box fixes.
 - Monthly lunch‑and‑learn: 20‑minute demo of new tool, pattern, or post‑mortem.
 
-## 13. Common Setup Issues & Solutions
+## 13. GitHub Issue Workflow
+
+When given a GitHub issue to implement:
+
+1. Review the issue details thoroughly
+2. Create a todo list to track implementation steps
+3. Implement all required tasks
+4. Close the issue with a summary comment
+5. Create a commit with descriptive message
+6. Create a pull request on origin
+
+## 14. Common Setup Issues & Solutions
 
 ### NPM Naming Restrictions
 
