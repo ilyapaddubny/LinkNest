@@ -1,0 +1,50 @@
+name: PR Labeler
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Label PR based on branch name
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const branchName = pr.head.ref;
+
+            // Extract labels from branch name
+            const labels = [];
+
+            if (branchName.startsWith('feat/')) {
+              labels.push('feature');
+            } else if (branchName.startsWith('fix/')) {
+              labels.push('bug');
+            } else if (branchName.startsWith('chore/')) {
+              labels.push('chore');
+            } else if (branchName.startsWith('docs/')) {
+              labels.push('documentation');
+            }
+
+            // Extract issue number from branch name
+            const issueMatch = branchName.match(/(\d+)/);
+            if (issueMatch) {
+              labels.push(`issue-${issueMatch[1]}`);
+            }
+
+            // Add labels if any were found
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: pr.number,
+                labels
+              });
+            }
