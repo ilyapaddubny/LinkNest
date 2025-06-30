@@ -44,13 +44,55 @@ We follow the guidelines outlined in our [CLAUDE.md](CLAUDE.md) file. Key princi
 ### Git Workflow
 
 - We use trunk-based development with short-lived feature branches
-- Branch naming: `feat/`, `fix/`, `chore/` prefixes
-- Commit messages follow Conventional Commits:
-  - `feat:` New features
-  - `fix:` Bug fixes
-  - `chore:` Maintenance tasks
-  - `docs:` Documentation changes
-  - `test:` Test additions or changes
+- Branch naming convention:
+  - `feat/[issue-number]-short-description` - for new features
+  - `fix/[issue-number]-short-description` - for bug fixes
+  - `chore/[issue-number]-short-description` - for maintenance tasks
+  - `docs/[issue-number]-short-description` - for documentation updates
+- Examples:
+  - `feat/12-add-bookmark-tags`
+  - `fix/23-oauth-redirect-loop`
+  - `chore/45-update-dependencies`
+
+### Commit Message Guidelines
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Types:
+
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation changes
+- `style:` Code style changes (formatting, missing semicolons, etc)
+- `refactor:` Code refactoring without adding features or fixing bugs
+- `test:` Adding or modifying tests
+- `chore:` Maintenance tasks, dependency updates, etc
+
+Example commit messages:
+
+```
+feat: add bookmark tagging functionality
+
+- Users can now add multiple tags to bookmarks
+- Tags are searchable and filterable
+- Implements tag autocomplete
+
+Closes #12
+```
+
+To use our commit message template:
+
+```bash
+git config --local commit.template .gitmessage
+```
 
 ### Pull Request Process
 
