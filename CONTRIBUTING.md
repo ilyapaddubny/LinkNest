@@ -25,12 +25,14 @@ See the README.md for detailed setup instructions.
 We follow the guidelines outlined in our [CLAUDE.md](CLAUDE.md) file. Key principles:
 
 ### Core Principles
+
 - **Readability > Cleverness** – Write clear, self-documenting code
 - **Single Source of Truth** – No duplication of logic or data
 - **Fail Fast, Recover Gracefully** – Handle errors at boundaries
 - **Small PRs, Frequent Merges** – Keep PRs under 300 lines
 
 ### Code Style
+
 - Use TypeScript with strict mode enabled
 - Follow Prettier defaults for formatting
 - Use ESLint with our custom rules
@@ -40,6 +42,7 @@ We follow the guidelines outlined in our [CLAUDE.md](CLAUDE.md) file. Key princi
   - `UPPER_SNAKE_CASE` for constants
 
 ### Git Workflow
+
 - We use trunk-based development with short-lived feature branches
 - Branch naming: `feat/`, `fix/`, `chore/` prefixes
 - Commit messages follow Conventional Commits:
@@ -63,6 +66,7 @@ We follow the guidelines outlined in our [CLAUDE.md](CLAUDE.md) file. Key princi
 ### PR Review Checklist
 
 Before requesting review, ensure:
+
 - [ ] Code compiles without warnings
 - [ ] All tests pass
 - [ ] New code has appropriate test coverage
@@ -91,17 +95,20 @@ Before requesting review, ensure:
 ## Types of Contributions
 
 ### Bug Reports
+
 - Use the issue template
 - Include steps to reproduce
 - Provide system information
 - Include error messages and screenshots
 
 ### Feature Requests
+
 - Check existing issues first
 - Clearly describe the problem and solution
 - Explain use cases and benefits
 
 ### Code Contributions
+
 - Fix bugs
 - Add new features
 - Improve performance
@@ -111,6 +118,7 @@ Before requesting review, ensure:
 ## Questions?
 
 Feel free to:
+
 - Open an issue for questions
 - Start a discussion in GitHub Discussions
 - Reach out to maintainers

@@ -6,8 +6,8 @@ export default function HomePage() {
           Welcome to LinkNest
         </h1>
         <p className="text-xl text-center text-gray-600 dark:text-gray-400 mb-12">
-          A friction‑free, cross‑device home for personal and shareable bookmarks
-          that feels as quick as opening a new browser tab.
+          A friction‑free, cross‑device home for personal and shareable
+          bookmarks that feels as quick as opening a new browser tab.
         </p>
         <div className="flex gap-4 justify-center">
           <button className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition">
@@ -19,5 +19,5 @@ export default function HomePage() {
         </div>
       </div>
     </main>
-  )
+  );
 }

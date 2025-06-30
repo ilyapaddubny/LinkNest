@@ -38,22 +38,26 @@ LinkNest is a modern bookmark management application designed to make saving, or
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/linknest.git
 cd linknest
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env.local
 ```
 
 4. Configure your environment variables in `.env.local`:
+
 ```env
 DATABASE_URL="your-postgres-connection-string"
 NEXTAUTH_URL="http://localhost:3000"
@@ -62,11 +66,13 @@ NEXTAUTH_SECRET="your-secret-key"
 ```
 
 5. Run database migrations:
+
 ```bash
 pnpm prisma migrate dev
 ```
 
 6. Start the development server:
+
 ```bash
 pnpm dev
 ```
@@ -109,6 +115,7 @@ linknest/
 ### Code Quality
 
 We use the following tools to maintain code quality:
+
 - TypeScript with strict mode for type safety
 - ESLint with custom rules for code consistency
 - Prettier for code formatting

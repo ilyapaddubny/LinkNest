@@ -5,31 +5,39 @@ This directory contains utility scripts for managing the LinkNest project.
 ## Available Scripts
 
 ### create-github-project.sh
+
 Creates a complete GitHub project board with all issues. This script:
+
 - Creates a new GitHub project
 - Sets up all necessary labels
 - Creates milestones
 - Populates the project with 18 comprehensive issues
 
 **Prerequisites:**
+
 - GitHub CLI (`gh`) must be installed and authenticated
 - You need appropriate permissions to create projects in the repository
 
 **Usage:**
+
 ```bash
 ./scripts/create-github-project.sh
 ```
 
 ### create-issues-only.sh
+
 Creates only the GitHub issues without creating a project. This is useful if:
+
 - You don't have permissions to create projects
 - You want to manually create and configure the project board
 - You already have a project and just want to populate it with issues
 
 **Prerequisites:**
+
 - GitHub CLI (`gh`) must be installed and authenticated
 
 **Usage:**
+
 ```bash
 ./scripts/create-issues-only.sh
 ```
