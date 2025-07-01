@@ -1,0 +1,28 @@
+# CODEOWNERS for LinkNest
+# These owners will be the default owners for everything in the repository
+# Unless a later match takes precedence, @ilyapaddubny will be requested for review
+
+# Global owners
+* @ilyapaddubny
+
+# Frontend specific files
+/app/ @ilyapaddubny
+/components/ @ilyapaddubny
+/public/ @ilyapaddubny
+*.tsx @ilyapaddubny
+*.css @ilyapaddubny
+
+# Backend and API files
+/app/api/ @ilyapaddubny
+/lib/ @ilyapaddubny
+/prisma/ @ilyapaddubny
+
+# Configuration files
+*.json @ilyapaddubny
+*.config.js @ilyapaddubny
+*.config.ts @ilyapaddubny
+.env* @ilyapaddubny
+
+# Documentation
+*.md @ilyapaddubny
+/docs/ @ilyapaddubny
