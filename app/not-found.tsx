@@ -10,18 +10,18 @@ export default function NotFound() {
           <div className="mx-auto h-24 w-24 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center mb-6">
             <Search className="h-12 w-12 text-primary-600 dark:text-primary-400" />
           </div>
-          
+
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             404
           </h1>
-          
+
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
             Page Not Found
           </h2>
-          
+
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Sorry, we couldn't find the page you're looking for. The link might be broken
-            or the page may have been moved.
+            Sorry, we couldn't find the page you're looking for. The link might
+            be broken or the page may have been moved.
           </p>
         </div>
 
@@ -32,7 +32,7 @@ export default function NotFound() {
               Go Home
             </Button>
           </Link>
-          
+
           <button
             onClick={() => window.history.back()}
             className="block w-full"

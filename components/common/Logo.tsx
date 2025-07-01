@@ -27,7 +27,12 @@ export function Logo({ className, showText = true, size = 'md' }: LogoProps) {
         <Bookmark className={cn('text-white', sizeClasses[size])} />
       </div>
       {showText && (
-        <span className={cn('font-bold text-gray-900 dark:text-white', textSizeClasses[size])}>
+        <span
+          className={cn(
+            'font-bold text-gray-900 dark:text-white',
+            textSizeClasses[size]
+          )}
+        >
           LinkNest
         </span>
       )}

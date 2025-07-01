@@ -35,7 +35,8 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Logo className="mb-4" />
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Your personal bookmark manager. Save, organize, and share your favorite links with ease.
+              Your personal bookmark manager. Save, organize, and share your
+              favorite links with ease.
             </p>
             <div className="mt-6 flex space-x-4">
               {socialLinks.map((item) => {
@@ -46,7 +47,11 @@ export function Footer() {
                     href={item.href}
                     className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                     target={item.href.startsWith('http') ? '_blank' : undefined}
-                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    rel={
+                      item.href.startsWith('http')
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
                   >
                     <Icon className="h-5 w-5" />
                     <span className="sr-only">{item.name}</span>

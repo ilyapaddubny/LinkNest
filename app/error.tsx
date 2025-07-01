@@ -24,14 +24,14 @@ export default function Error({
           <div className="mx-auto h-24 w-24 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mb-6">
             <AlertTriangle className="h-12 w-12 text-red-600 dark:text-red-400" />
           </div>
-          
+
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Something went wrong!
           </h1>
-          
+
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            We're sorry, but something unexpected happened. Our team has been notified
-            and is working on a fix.
+            We're sorry, but something unexpected happened. Our team has been
+            notified and is working on a fix.
           </p>
 
           {process.env.NODE_ENV === 'development' && (
@@ -57,7 +57,7 @@ export default function Error({
             <RefreshCw className="mr-2 h-5 w-5" />
             Try Again
           </Button>
-          
+
           <Link href="/" className="block">
             <Button variant="outline" size="lg" className="w-full">
               <Home className="mr-2 h-5 w-5" />

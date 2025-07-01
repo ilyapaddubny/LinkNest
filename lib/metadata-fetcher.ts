@@ -21,7 +21,7 @@ export async function fetchMetadata(url: string): Promise<MetaData> {
 
     const html = await response.text();
     const dom = new JSDOM(html);
-    const document = dom.window.document;
+    const { document } = dom.window;
 
     // Helper function to get meta content
     const getMeta = (name: string): string | null => {

@@ -40,15 +40,8 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers>
           <div className="flex min-h-screen flex-col">
-            <Navigation 
-              user={session?.user} 
-              onSignOut={() => {
-                // This will be handled client-side
-              }} 
-            />
-            <main className="flex-1">
-              {children}
-            </main>
+            <Navigation user={session?.user} />
+            <main className="flex-1">{children}</main>
             <Footer />
           </div>
         </Providers>

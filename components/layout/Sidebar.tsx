@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  Home, 
-  Bookmark, 
-  Plus, 
-  Settings, 
-  Tag, 
+import {
+  Home,
+  Bookmark,
+  Plus,
+  Settings,
+  Tag,
   Heart,
   Share2,
-  BarChart3
+  BarChart3,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/Badge';
@@ -40,14 +40,21 @@ export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className={cn('flex flex-col bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700', className)}>
+    <aside
+      className={cn(
+        'flex flex-col bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700',
+        className
+      )}
+    >
       <div className="flex-1 flex flex-col min-h-0 pt-5 pb-4 overflow-y-auto">
         <div className="flex-1 px-3 space-y-1">
           <nav className="space-y-1">
             {navigation.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
-              
+              const isActive =
+                pathname === item.href ||
+                (item.href !== '/dashboard' && pathname.startsWith(item.href));
+
               return (
                 <Link
                   key={item.name}

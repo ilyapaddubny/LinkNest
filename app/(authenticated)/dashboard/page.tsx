@@ -1,7 +1,21 @@
 import { auth } from '@/lib/auth';
-import { Plus, Bookmark, Tag, Share2, TrendingUp, Clock, Star } from 'lucide-react';
+import {
+  Plus,
+  Bookmark,
+  Tag,
+  Share2,
+  TrendingUp,
+  Clock,
+  Star,
+} from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
 
@@ -191,9 +205,7 @@ export default async function DashboardPage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Recent Bookmarks</CardTitle>
-                <CardDescription>
-                  Your latest saved links
-                </CardDescription>
+                <CardDescription>Your latest saved links</CardDescription>
               </div>
               <Link href="/bookmarks">
                 <Button variant="outline" size="sm">
@@ -227,7 +239,11 @@ export default async function DashboardPage() {
                         </span>
                         <div className="flex space-x-1">
                           {bookmark.tags.slice(0, 2).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}

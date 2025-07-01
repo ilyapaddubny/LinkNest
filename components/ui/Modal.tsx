@@ -3,8 +3,8 @@
 import { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { Button } from './Button';
 import { cn } from '@/lib/utils';
+import { Button } from './Button';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -67,7 +67,7 @@ export function Modal({
         onClick={onClose}
         aria-hidden="true"
       />
-      
+
       {/* Modal */}
       <div
         className={cn(
@@ -116,9 +116,7 @@ export function Modal({
         )}
 
         {/* Content */}
-        <div className="p-6">
-          {children}
-        </div>
+        <div className="p-6">{children}</div>
       </div>
     </div>
   );

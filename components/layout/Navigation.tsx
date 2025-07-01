@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { Menu, X, Plus, Search, Home, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Logo } from '@/components/common/Logo';
@@ -11,12 +12,14 @@ import { UserMenu } from '@/components/common/UserMenu';
 import { cn } from '@/lib/utils';
 
 interface NavigationProps {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  } | null | undefined;
-  onSignOut?: () => void;
+  user?:
+    | {
+        name?: string | null;
+        email?: string | null;
+        image?: string | null;
+      }
+    | null
+    | undefined;
 }
 
 const publicNavItems = [
@@ -31,11 +34,15 @@ const authenticatedNavItems = [
   { href: '/bookmarks/new', label: 'Add Bookmark', icon: Plus },
 ];
 
-export function Navigation({ user, onSignOut }: NavigationProps) {
+export function Navigation({ user }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const navItems = user ? authenticatedNavItems : publicNavItems;
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -76,9 +83,9 @@ export function Navigation({ user, onSignOut }: NavigationProps) {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-            
+
             {user ? (
-              <UserMenu user={user} onSignOut={onSignOut || (() => {})} />
+              <UserMenu user={user} onSignOut={handleSignOut} />
             ) : (
               <div className="hidden md:flex items-center space-x-4">
                 <Link href="/auth/signin">
@@ -136,12 +143,18 @@ export function Navigation({ user, onSignOut }: NavigationProps) {
               {!user && (
                 <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                   <div className="space-y-2">
-                    <Link href="/auth/signin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/auth/signin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <Button variant="ghost" className="w-full justify-start">
                         Sign In
                       </Button>
                     </Link>
-                    <Link href="/auth/signin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/auth/signin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <Button className="w-full">Get Started</Button>
                     </Link>
                   </div>
