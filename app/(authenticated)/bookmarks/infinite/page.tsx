@@ -11,6 +11,7 @@ import {
   Share2,
   Bookmark,
   AlertCircle,
+  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -19,14 +20,21 @@ import { Badge } from '@/components/ui/Badge';
 import { Skeleton } from '@/components/ui/Skeleton';
 import Link from 'next/link';
 import { formatRelativeTime, extractDomain } from '@/lib/utils';
-import { useBookmarks, useDeleteBookmark } from '@/hooks';
+import { useInfiniteBookmarks, useDeleteBookmark } from '@/hooks';
 import { toast } from 'sonner';
+import { useInView } from 'react-intersection-observer';
 
-export default function BookmarksPage() {
+export default function InfiniteBookmarksPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  // Intersection observer for infinite scroll
+  const { ref, inView } = useInView({
+    threshold: 0,
+    rootMargin: '100px',
+  });
 
   // Debounce search query
   useEffect(() => {
@@ -37,8 +45,16 @@ export default function BookmarksPage() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Fetch bookmarks with React Query
-  const { data, isLoading, isError, error } = useBookmarks({
+  // Fetch bookmarks with infinite scroll
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = useInfiniteBookmarks({
     search: debouncedSearch,
     tag: selectedTag,
     limit: 20,
@@ -47,7 +63,14 @@ export default function BookmarksPage() {
   // Delete bookmark mutation
   const deleteBookmark = useDeleteBookmark();
 
-  const bookmarks = data?.data || [];
+  // Trigger next page fetch when scrolling to bottom
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const bookmarks = data?.pages.flatMap((page) => page.data) || [];
   const allTags = Array.from(new Set(bookmarks.flatMap((b) => b.tags))).sort();
 
   const handleDelete = async (id: string) => {
@@ -73,7 +96,7 @@ export default function BookmarksPage() {
             {!isLoading && (
               <>
                 {bookmarks.length} bookmark
-                {bookmarks.length !== 1 ? 's' : ''} found
+                {bookmarks.length !== 1 ? 's' : ''} loaded
               </>
             )}
           </p>
@@ -182,100 +205,117 @@ export default function BookmarksPage() {
 
       {/* Bookmarks Grid */}
       {!isLoading && !isError && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {bookmarks.map((bookmark) => (
-            <Card
-              key={bookmark.id}
-              className="group hover:shadow-lg transition-shadow"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start space-x-3">
-                      {bookmark.favicon ? (
-                        <img
-                          src={bookmark.favicon}
-                          alt=""
-                          className="h-6 w-6 rounded-sm flex-shrink-0 mt-0.5"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      ) : (
-                        <Bookmark className="h-6 w-6 text-gray-400 flex-shrink-0 mt-0.5" />
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 line-clamp-2">
-                          {bookmark.title || bookmark.url}
-                        </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                          {extractDomain(bookmark.url)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {bookmark.description && (
-                      <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 mb-4">
-                        {bookmark.description}
-                      </p>
-                    )}
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {bookmark.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="text-xs"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {formatRelativeTime(bookmark.createdAt)}
-                      </span>
-                      <div className="flex items-center space-x-2">
-                        {bookmark.isPublic && (
-                          <Share2 className="h-4 w-4 text-green-500" />
+        <>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {bookmarks.map((bookmark) => (
+              <Card
+                key={bookmark.id}
+                className="group hover:shadow-lg transition-shadow"
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start space-x-3">
+                        {bookmark.favicon ? (
+                          <img
+                            src={bookmark.favicon}
+                            alt=""
+                            className="h-6 w-6 rounded-sm flex-shrink-0 mt-0.5"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <Bookmark className="h-6 w-6 text-gray-400 flex-shrink-0 mt-0.5" />
                         )}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 line-clamp-2">
+                            {bookmark.title || bookmark.url}
+                          </h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            {extractDomain(bookmark.url)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {bookmark.description && (
+                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 mb-4">
+                          {bookmark.description}
+                        </p>
+                      )}
+
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {bookmark.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="text-xs"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {formatRelativeTime(bookmark.createdAt)}
+                        </span>
+                        <div className="flex items-center space-x-2">
+                          {bookmark.isPublic && (
+                            <Share2 className="h-4 w-4 text-green-500" />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Actions */}
-                <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
-                  <a
-                    href={bookmark.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-                  >
-                    <ExternalLink className="mr-1 h-4 w-4" />
-                    Visit
-                  </a>
-                  <div className="flex items-center space-x-2">
-                    <Link href={`/bookmarks/${bookmark.id}/edit`}>
-                      <Button variant="ghost" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(bookmark.id)}
-                      disabled={deleteBookmark.isPending}
+                  {/* Actions */}
+                  <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
+                    <a
+                      href={bookmark.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                     >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                      <ExternalLink className="mr-1 h-4 w-4" />
+                      Visit
+                    </a>
+                    <div className="flex items-center space-x-2">
+                      <Link href={`/bookmarks/${bookmark.id}/edit`}>
+                        <Button variant="ghost" size="sm">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(bookmark.id)}
+                        disabled={deleteBookmark.isPending}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Load more trigger */}
+          <div ref={ref} className="flex justify-center py-4">
+            {isFetchingNextPage && (
+              <div className="flex items-center space-x-2 text-gray-500">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>Loading more bookmarks...</span>
+              </div>
+            )}
+            {!hasNextPage && bookmarks.length > 0 && (
+              <p className="text-gray-500 dark:text-gray-400">
+                No more bookmarks to load
+              </p>
+            )}
+          </div>
+        </>
       )}
 
       {!isLoading && !isError && bookmarks.length === 0 && (

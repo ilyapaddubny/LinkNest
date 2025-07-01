@@ -1,10 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, Link as LinkIcon, Globe, Lock, Plus, X } from 'lucide-react';
+import {
+  ArrowLeft,
+  Link as LinkIcon,
+  Globe,
+  Lock,
+  Plus,
+  X,
+} from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
 
@@ -16,19 +29,19 @@ export default function NewBookmarkPage() {
     tags: [] as string[],
     isPublic: false,
   });
-  
+
   const [currentTag, setCurrentTag] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleUrlBlur = async () => {
     if (!formData.url || formData.title) return;
-    
+
     setIsLoading(true);
     try {
       // Simulate metadata fetching
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setFormData(prev => ({
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setFormData((prev) => ({
         ...prev,
         title: 'Auto-fetched Title',
         description: 'Auto-fetched description from the URL...',
@@ -42,7 +55,7 @@ export default function NewBookmarkPage() {
 
   const addTag = () => {
     if (currentTag.trim() && !formData.tags.includes(currentTag.trim())) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         tags: [...prev.tags, currentTag.trim()],
       }));
@@ -51,9 +64,9 @@ export default function NewBookmarkPage() {
   };
 
   const removeTag = (tagToRemove: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove),
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
     }));
   };
 
@@ -74,8 +87,8 @@ export default function NewBookmarkPage() {
       }
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // Redirect to bookmarks page
       window.location.href = '/bookmarks';
     } catch (error) {
@@ -111,7 +124,8 @@ export default function NewBookmarkPage() {
         <CardHeader>
           <CardTitle>Bookmark Details</CardTitle>
           <CardDescription>
-            Enter the URL and we'll try to fetch the title and description automatically
+            Enter the URL and we'll try to fetch the title and description
+            automatically
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -123,7 +137,9 @@ export default function NewBookmarkPage() {
                 type="url"
                 placeholder="https://example.com"
                 value={formData.url}
-                onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, url: e.target.value }))
+                }
                 onBlur={handleUrlBlur}
                 error={errors.url}
                 required
@@ -136,7 +152,9 @@ export default function NewBookmarkPage() {
                 label="Title"
                 placeholder="Bookmark title"
                 value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, title: e.target.value }))
+                }
                 error={errors.title}
                 required
               />
@@ -152,7 +170,12 @@ export default function NewBookmarkPage() {
                 rows={3}
                 placeholder="Optional description"
                 value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
               />
             </div>
 
@@ -174,14 +197,23 @@ export default function NewBookmarkPage() {
                   }}
                   className="flex-1"
                 />
-                <Button type="button" onClick={addTag} variant="outline" size="sm">
+                <Button
+                  type="button"
+                  onClick={addTag}
+                  variant="outline"
+                  size="sm"
+                >
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
               {formData.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {formData.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       {tag}
                       <button
                         type="button"
@@ -204,7 +236,9 @@ export default function NewBookmarkPage() {
               <div className="space-y-3">
                 <button
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, isPublic: false }))}
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, isPublic: false }))
+                  }
                   className={`flex w-full items-center space-x-3 rounded-lg border p-4 text-left transition-colors ${
                     !formData.isPublic
                       ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
@@ -213,16 +247,20 @@ export default function NewBookmarkPage() {
                 >
                   <Lock className="h-5 w-5 text-gray-500" />
                   <div>
-                    <div className="font-medium text-gray-900 dark:text-gray-100">Private</div>
+                    <div className="font-medium text-gray-900 dark:text-gray-100">
+                      Private
+                    </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       Only you can see this bookmark
                     </div>
                   </div>
                 </button>
-                
+
                 <button
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, isPublic: true }))}
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, isPublic: true }))
+                  }
                   className={`flex w-full items-center space-x-3 rounded-lg border p-4 text-left transition-colors ${
                     formData.isPublic
                       ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
@@ -231,7 +269,9 @@ export default function NewBookmarkPage() {
                 >
                   <Globe className="h-5 w-5 text-gray-500" />
                   <div>
-                    <div className="font-medium text-gray-900 dark:text-gray-100">Public</div>
+                    <div className="font-medium text-gray-900 dark:text-gray-100">
+                      Public
+                    </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       Anyone can see this bookmark
                     </div>
@@ -259,9 +299,7 @@ export default function NewBookmarkPage() {
         <Card>
           <CardHeader>
             <CardTitle>Preview</CardTitle>
-            <CardDescription>
-              How your bookmark will appear
-            </CardDescription>
+            <CardDescription>How your bookmark will appear</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">

@@ -29,14 +29,13 @@ export function UserMenu({ user, onSignOut }: UserMenuProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const getInitials = (name: string) => {
-    return name
+  const getInitials = (name: string) =>
+    name
       .split(' ')
       .map((n) => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
-  };
 
   return (
     <div className="relative" ref={menuRef}>
@@ -72,7 +71,7 @@ export function UserMenu({ user, onSignOut }: UserMenuProps) {
               {user.email}
             </p>
           </div>
-          
+
           <div className="py-1">
             <button
               onClick={() => {
@@ -84,7 +83,7 @@ export function UserMenu({ user, onSignOut }: UserMenuProps) {
               <Settings className="mr-3 h-4 w-4" />
               Settings
             </button>
-            
+
             <button
               onClick={() => {
                 setIsOpen(false);

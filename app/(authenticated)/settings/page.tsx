@@ -2,7 +2,13 @@ import { auth } from '@/lib/auth';
 import { User, Bell, Shield, Database, Link as LinkIcon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 export default async function SettingsPage() {

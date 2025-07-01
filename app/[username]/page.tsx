@@ -22,7 +22,8 @@ const mockPublicBookmarks = [
     id: '1',
     title: 'Building Modern Web Applications with Next.js',
     url: 'https://nextjs.org/docs',
-    description: 'The React Framework for Production. Next.js gives you the best developer experience with all the features you need for production.',
+    description:
+      'The React Framework for Production. Next.js gives you the best developer experience with all the features you need for production.',
     tags: ['nextjs', 'react', 'development', 'frontend'],
     createdAt: '2024-01-01T10:00:00Z',
     favicon: 'https://nextjs.org/favicon.ico',
@@ -31,7 +32,8 @@ const mockPublicBookmarks = [
     id: '2',
     title: 'Tailwind CSS Documentation',
     url: 'https://tailwindcss.com/docs',
-    description: 'A utility-first CSS framework packed with classes to build any design, directly in your markup.',
+    description:
+      'A utility-first CSS framework packed with classes to build any design, directly in your markup.',
     tags: ['css', 'design', 'framework', 'styling'],
     createdAt: '2024-01-01T09:30:00Z',
     favicon: 'https://tailwindcss.com/favicon-32x32.png',
@@ -40,7 +42,8 @@ const mockPublicBookmarks = [
     id: '3',
     title: 'TypeScript Handbook',
     url: 'https://www.typescriptlang.org/docs/',
-    description: 'TypeScript extends JavaScript by adding types to the language.',
+    description:
+      'TypeScript extends JavaScript by adding types to the language.',
     tags: ['typescript', 'javascript', 'programming', 'documentation'],
     createdAt: '2024-01-01T08:15:00Z',
     favicon: 'https://www.typescriptlang.org/favicon-32x32.png',
@@ -53,7 +56,9 @@ interface PublicProfilePageProps {
   };
 }
 
-export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
+export default async function PublicProfilePage({
+  params,
+}: PublicProfilePageProps) {
   const { username } = params;
 
   // In a real app, you would fetch the user and their public bookmarks from the API
@@ -64,7 +69,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
   const user = mockUser;
   const bookmarks = mockPublicBookmarks;
-  const allTags = Array.from(new Set(bookmarks.flatMap(b => b.tags))).sort();
+  const allTags = Array.from(new Set(bookmarks.flatMap((b) => b.tags))).sort();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -82,7 +87,10 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
               ) : (
                 <div className="h-24 w-24 rounded-full bg-primary-100 flex items-center justify-center dark:bg-primary-900/20">
                   <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                    {user.name.split(' ').map(n => n[0]).join('')}
+                    {user.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
                   </span>
                 </div>
               )}
@@ -104,9 +112,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                   <Calendar className="mr-1 h-4 w-4" />
                   Joined {formatRelativeTime(user.joinedAt)}
                 </div>
-                <div>
-                  {user.publicBookmarkCount} public bookmarks
-                </div>
+                <div>{user.publicBookmarkCount} public bookmarks</div>
               </div>
             </div>
             <div className="flex-shrink-0">
@@ -128,10 +134,18 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                 </h2>
                 <div className="space-y-2">
                   {allTags.slice(0, 10).map((tag) => {
-                    const count = bookmarks.filter(b => b.tags.includes(tag)).length;
+                    const count = bookmarks.filter((b) =>
+                      b.tags.includes(tag)
+                    ).length;
                     return (
-                      <div key={tag} className="flex items-center justify-between">
-                        <Badge variant="outline" className="flex-1 justify-start">
+                      <div
+                        key={tag}
+                        className="flex items-center justify-between"
+                      >
+                        <Badge
+                          variant="outline"
+                          className="flex-1 justify-start"
+                        >
                           <Tag className="mr-1 h-3 w-3" />
                           {tag}
                         </Badge>
@@ -153,13 +167,17 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                 Public Bookmarks
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                {bookmarks.length} bookmark{bookmarks.length !== 1 ? 's' : ''} shared publicly
+                {bookmarks.length} bookmark{bookmarks.length !== 1 ? 's' : ''}{' '}
+                shared publicly
               </p>
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               {bookmarks.map((bookmark) => (
-                <Card key={bookmark.id} className="group hover:shadow-lg transition-shadow">
+                <Card
+                  key={bookmark.id}
+                  className="group hover:shadow-lg transition-shadow"
+                >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       {bookmark.favicon && (
@@ -185,7 +203,11 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
                         <div className="flex flex-wrap gap-2 mb-4">
                           {bookmark.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}
