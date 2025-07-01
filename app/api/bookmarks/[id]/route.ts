@@ -106,7 +106,7 @@ export async function PUT(request: NextRequest, { params }: Context) {
     if (description !== undefined) updateData.description = description;
     if (typeof isPublic === 'boolean') updateData.isPublic = isPublic;
 
-    const updatedBookmark = await prisma.bookmark.update({
+    await prisma.bookmark.update({
       where: { id: params.id },
       data: updateData,
     });

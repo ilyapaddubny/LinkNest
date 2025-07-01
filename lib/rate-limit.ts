@@ -14,6 +14,12 @@ export interface RateLimitConfig {
   maxRequests: number;
 }
 
+function getClientIdentifier(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  const ip = forwarded ? forwarded.split(',')[0] : '127.0.0.1';
+  return `ip:${ip}`;
+}
+
 export function rateLimit(config: RateLimitConfig) {
   return {
     check: (
@@ -42,7 +48,7 @@ export function rateLimit(config: RateLimitConfig) {
       }
 
       const record = store[key];
-      record.count++;
+      record.count += 1;
 
       const remaining = Math.max(0, config.maxRequests - record.count);
       const reset = Math.ceil(record.resetTime / 1000);
@@ -55,12 +61,6 @@ export function rateLimit(config: RateLimitConfig) {
       };
     },
   };
-}
-
-function getClientIdentifier(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const ip = forwarded ? forwarded.split(',')[0] : '127.0.0.1';
-  return `ip:${ip}`;
 }
 
 // Predefined rate limiters
